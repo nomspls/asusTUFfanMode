@@ -8,7 +8,10 @@ def getMode():
     logs = run("dmesg | grep -I 'asus_wmi: Set fan'",
                  shell=True, capture_output=True, text=True).stdout
     global currentMode
-    currentMode = logs.split('\n')[-2][-1]
+    try:
+        currentMode = logs.split('\n')[-2][-1]
+    except:
+        currentMode = '0'
 
 def start():
     getMode()
@@ -20,6 +23,6 @@ def start():
     elif currentMode == '2':
         os.system("notify-send 'Mode set to SILENT'")
     
-    print(currentMode)
+    # print(currentMode)
 
 start()
